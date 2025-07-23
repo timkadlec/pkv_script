@@ -125,16 +125,16 @@ def compose_csv(results, output_file):
         writer.writeheader()
         writer.writerows(results)
 
-#Tělo kódu
 
-results = []
+if __name__ == '__main__':
     smb_path = get_smb_path()
+    results = []
 
-# Projdi složky a soubory
-search_smb(smb_path, results)
+    # Projdi složky a soubory
+    search_smb(smb_path, results)
 
-# Seřaď výsledky podle Flag
-results.sort(key=lambda x: x["Flag"])
+    # Seřaď výsledky podle Flag
+    results.sort(key=lambda x: x["Flag"])
 
-# Vytvoř csv
-compose_csv(results, output_file="static/output.csv")
+    # Vytvoř csv
+    compose_csv(results, output_file="static/output.csv")
