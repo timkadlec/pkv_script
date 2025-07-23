@@ -59,7 +59,7 @@ Vytvoří CSV soubor z výsledků.
 
 ## Hlavní skript
 
-V `#Těle kódu` proběhne skript:
+V `if __name__ == '__main__':` proběhne skript:
 
 1. Načte přihlašovací údaje ze souboru `.env`
 2. Připojí se k SMB
@@ -88,7 +88,7 @@ CSV soubor bude obsahovat např.:
   SMB_USERNAME=uzivatel
   SMB_PASSWORD=heslo
   ```
-- Sdílená složka musí být dostupná z tvého počítače a správně nasdílená (např. `pkv_share`)
+- Sdílená složka musí být dostupná z vašeho počítače a správně nasdílená (např. `pkv_share`)
 - Nainstalované pluginy z `requirements.txt`
 
 ---
@@ -100,3 +100,28 @@ python script.py
 ```
 
 Výsledný vygenerovaný soubor se nachází ve složce `static/output.csv`.
+
+## Testování
+
+Projekt obsahuje testy v `test_smbscanner.py`. Testy ověřují  funkce skriptu bez nutnosti připojení k  SMB serveru – díky použití mocking (`unittest.mock`).
+
+### Přehled testovaných funkcí
+
+| Testovací metoda                 | Co ověřuje                                                             |
+|----------------------------------|-------------------------------------------------------------------------|
+| `test_is_dir_true()`             | Funkce `is_dir` vrátí `True`, pokud zadaná cesta odkazuje na složku     |
+| `test_is_dir_false()`            | Funkce `is_dir` vrátí `False`, pokud cesta vede na soubor          |
+| `test_search_smb_empty_dir()`    | Funkce `search_smb` identifikuje prázdnou složku (`EMPTY`)        |
+| `test_search_smb_large_file()`   | Funkce `search_smb` označí soubor větší než 500 MB (`EXCEEDED`)   |
+| `test_compose_csv()`             | Funkce `compose_csv` vytvoří CSV soubor s očekávaným počtem řádků |
+
+> Všechny testy používají `patch` pro nahrazení skutečných volání `smbclient.stat()` a `smbclient.listdir()` testovacími daty.
+
+---
+
+### Spuštění testů
+
+Nejprve se ujistěte, že máte nainstalovaný `pytest`, ostatně je zohledněno v `requirements.txt`:
+
+```bash
+pip install pytest
