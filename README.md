@@ -125,3 +125,10 @@ Nejprve se ujistěte, že máte nainstalovaný `pytest`, ostatně je zohledněno
 
 ```bash
 pip install pytest
+```
+
+Test spouštíme následujícím příkazem s příznakem `-v` verbose:
+```bash
+pytest -v test_smbscanner.py
+```
+Testy používají unittest a unittest.mock, nevyžadují připojení k SMB serveru ani .env soubor.
