@@ -4,12 +4,16 @@ import smbclient
 import csv
 
 load_dotenv()
-smb_username = os.getenv('SMB_USERNAME')
-smb_password = os.getenv('SMB_PASSWORD')
-smb_server = os.getenv('SMB_SERVER')
 
-smbclient.register_session(server=smb_server, username=smb_username, password=smb_password)
-smb_path = f"\\\\{smb_server}\\pkv_share"
+
+def get_smb_path():
+    smb_username = os.getenv('SMB_USERNAME')
+    smb_password = os.getenv('SMB_PASSWORD')
+    smb_server = os.getenv('SMB_SERVER')
+
+    smbclient.register_session(server=smb_server, username=smb_username, password=smb_password)
+
+    return f"\\\\{smb_server}\\pkv_share"
 
 
 def is_dir(path):
@@ -124,6 +128,7 @@ def compose_csv(results, output_file):
 #Tělo kódu
 
 results = []
+    smb_path = get_smb_path()
 
 # Projdi složky a soubory
 search_smb(smb_path, results)
