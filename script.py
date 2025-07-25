@@ -5,6 +5,8 @@ import csv
 
 load_dotenv()
 
+# Cesta k výstupnímu souboru
+output_path = "static/output.csv"
 
 def get_smb_path():
     smb_username = os.getenv('SMB_USERNAME')
@@ -136,5 +138,10 @@ if __name__ == '__main__':
     # Seřaď výsledky podle Flag
     results.sort(key=lambda x: x["Flag"])
 
+    # Zjisti, jestli adresář existuje, pokud ne, vytvoř ho
+    output_dir = os.path.dirname(output_path)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     # Vytvoř csv
-    compose_csv(results, output_file="static/output.csv")
+    compose_csv(results, output_file)
